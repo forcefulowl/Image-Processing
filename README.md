@@ -8,7 +8,7 @@ The original image used in this project is:
 
 Using Salt-pepper, randomly adding [0,0,0] or [255,255,255] pixels.
 
-![avatar](/img/sale-pepper.png)
+![avatar](/img/salt-pepper.png)
 
 ### RGB to Gray-Scale
 output = R*0.299 + G*0.587 + B*0.114
