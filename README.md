@@ -4,11 +4,11 @@
 output = R*0.299 + G*0.587 + B*0.114
 
 ### Noise Reduction
-*** Average Smooth
+*** Average Smooth ***
 
 Using NS5 to caculate the average value.
 
-*** Median Smooth
+*** Median Smooth ***
 
 Using NS9 to caculate the median value.
 
