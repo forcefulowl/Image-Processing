@@ -1,7 +1,14 @@
 # Image-Processing
 
 The original image used in this project is:
+
 ![avatar](/img/original.png)
+
+### Add Noise
+
+Using Salt-pepper, randomly adding [0,0,0] or [255,255,255] pixels.
+
+![avatar](/img/sale-pepper.png)
 
 ### RGB to Gray-Scale
 output = R*0.299 + G*0.587 + B*0.114
@@ -15,9 +22,7 @@ Using NS5 to caculate the average value.
 
 Using NS9 to caculate the median value.
 
-### Add Noise
 
-Using Salt-pepper, randomly adding [0,0,0] or [255,255,255] pixels
 
 ### Gray-Scale to Binary
 
