@@ -28,9 +28,12 @@ The most common way is to set a thresholding, if the value of pixel is larger th
 
 There're two more methods which can achieve the goal, the first one is *P-Tile*, which means the pixel with the top x% value can be converted to white, others should be converted to black.
 
-And the second one is *Iterative Thresholding*, firstly, setting T as a random number, and appling the T to the common thresholding method. Caculating the new thrsholding T' = 1/2(a1+a2), a1 equals to the average of the value of pixel which is larger than T, a2 equals to the average of the value of pixel which is smaller than T, and caculating the absolute value of (T-T'), if the result is larger than 1 (whatever), using T' as T to continue the above loop, until the result is smaller than 1, finally, the T' in last loop should be the thresholding in converting.
+And the second one is *Iterative Thresholding*. 
+- Setting T as a random number, and appling the T to the common thresholding method. 
+- Caculating the new thrsholding T' = 1/2(a1+a2), a1 equals to the average of the value of pixel which is larger than T, a2 equals to the average of the value of pixel which is smaller than T, and caculating the absolute value of (T-T'). 
+- If the result is larger than 1 (whatever), using T' as T to continue the above loop, until the result is smaller than 1, finally, the T' in last loop should be the thresholding in converting.
 
-![avatar](/img/iterative-binary)
+![avatar](/img/iterative-binary.png)
 
 ### Label-Component
 
