@@ -51,6 +51,14 @@ In this project, to implement this part, my method is:
 - If matching the 1st condition above, appending the new label to the list.<br>
   If matching the 3rd condition above, for e.g., the label of top pixel is 5, the label of left pixel is 4, then setting list[5] = 4. In other words, the larger label should be the child, the smaller label should be its parent.
   
-For e.g., after scanning the whole image for 1 time, the list = [0,1,2,2,3,4], which means list[0] = 0, list[1] = 1, list[2] = 2, list[3] = 2, list[4] = 3, list[5] = 4. 
+For e.g., after scanning the whole image for 1 time, the list = [0,1,2,2,3,4], which means list[0] = 0, list[1] = 1, list[2] = 2, list[3] = 2, list[4] = 3, list[5] = 4. Let's do the second scan, starting from the tail of the list, if list[5] != 5, using 4 as index, list[4] != 4, using 3 as index, list[3] != 3, using 2 as index, list[2] == 2, that's it, and setting list[5] = 2. Finally after second scan, list = [0,1,2,2,2,2], which means label 2,3,4,5 should be in one set, in other words, should be one component.
+
+The coloring part is easy, just setting some random color to different components. Let's see the result.
+
+![avatar](/img/label1.png)
+
+We can see, there're tons of noises in this image. To get a better performance, we'd better to smooth the binary image before labeling.
+
+![avatar](/img/iterative-smooth.png) ![avatar](/img/label2.png)
 
 
