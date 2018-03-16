@@ -69,28 +69,32 @@ The main idea of image sharpening is, checking the adjacent area and computing t
 
 `[0,-1,1,0]+[-1,0,0,1]`
 Meanwhile, we can set a thresholding based on Robert's Operator.
-<img src='/img/roberts.png' width = '300' height = '300'>
+
+<img src='/img/roberts.png' width = '332' height = '300'>
 
 ***Sobel Operator***
 
 `x = [1,2,1,0,0,0,-1,-2,-1], y = [1,0,-1,2,0,-2,1,0,-1], result = math.sqrt(x**2+y**2)`
-![avatar](/img/sobel.png)
+
+<img src='/img/sobel.png' width = '332' height = '300'>
 
 ***Prewitt Operator***
 
 `r1 = [-1,0,1,-1,0,1,-1,0,1], r2 = [1,1,1,0,0,0,-1,-1,-1], result = math.sqrt(r1**2+r2**2)`
-![avatar](/img/prewitt.png)
+
+<img src='/img/prewitt.png' width = '332' height = '300'>
 
 ***Kirsch Operator***
 
 `r3 = [0,1,1,-1,0,1,-1,-1,0], r4 = [1,1,0,1,0,-1,0,-1,-1], result = max(r1,r2,r3,r4)`
-![avatar](/img/krisch.png)
+
+<img src='/img/krisch.png' width = '332' height = '300'>
 
 ***Laplacian Operator***
 
 `ori1 = [0,1,0,1,-4,1,0,1,0], ori2 = [1,0,1,0,-4,0,1,0,1], new = [1,1,1,1,-8,1,1,1,1] or [-1,-1,-1,-1,8,-1,-1,-1,-1]`
 
-![avatar](/img/laplacian_ori.png)![avatar](/img/laplacian_new.png)
+<img src='/img/laplacian_ori.png' width = '332' height = '300'><img src='/img/laplacian_new.png' width = '332' height = '300'>
 
 We can not say which one is better, it depends on different cases.
 
