@@ -51,6 +51,19 @@ class GUI(QMainWindow):
         button_37 = QPushButton('Label Component')
         button_37.clicked.connect(self.btn37_clicked)
 
+        button_41 = QPushButton('roberts')
+        button_41.clicked.connect(self.btn41_clicked)
+        button_42 = QPushButton('sobel')
+        button_42.clicked.connect(self.btn42_clicked)
+        button_43 = QPushButton('prewitt')
+        button_43.clicked.connect(self.btn43_clicked)
+        button_44 = QPushButton('krisch')
+        button_44.clicked.connect(self.btn44_clicked)
+        button_45 = QPushButton('laplacian_ori')
+        button_45.clicked.connect(self.btn45_clicked)
+        button_46 = QPushButton('laplacian_new')
+        button_46.clicked.connect(self.btn46_clicked)
+
         vbox_1 = QVBoxLayout()
         vbox_1.addWidget(self.label_1)
         vbox_1.addWidget(button_1)
@@ -68,10 +81,20 @@ class GUI(QMainWindow):
         vbox_3.addWidget(button_36)
         vbox_3.addWidget(button_37)
 
+        vbox_4 = QVBoxLayout()
+        vbox_4.addWidget(button_41)
+        vbox_4.addWidget(button_42)
+        vbox_4.addWidget(button_43)
+        vbox_4.addWidget(button_44)
+        vbox_4.addWidget(button_45)
+        vbox_4.addWidget(button_46)
+
+
         hbox_1 = QHBoxLayout()
         hbox_1.addLayout(vbox_1)
         hbox_1.addLayout(vbox_2)
         hbox_1.addLayout(vbox_3)
+        hbox_1.addLayout(vbox_4)
 
         layout_widget = QWidget()
         layout_widget.setLayout(hbox_1)
@@ -89,6 +112,7 @@ class GUI(QMainWindow):
 
     def btn1_clicked(self,checked):
         self.img1 = mpimg.imread('sample.jpeg')
+        # self.img1 = mpimg.imread('/Users/gavin/Desktop/cat.jpeg')
         self.img1.flags.writeable = True
         self.row, self.column, self.channel = self.img1.shape
         self.bytesPerLine = 3 * self.column
@@ -148,6 +172,47 @@ class GUI(QMainWindow):
         qImg = QImage(self.img1.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
         self.label_1.setPixmap(QPixmap.fromImage(qImg))
 
+
+    def btn41_clicked(self,checked):
+        t = test(self.row, self.column, self.channel)
+        self.img2 = t.roberts(self.img1)
+        qImg = QImage(self.img2.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
+        self.label_2.setPixmap(QPixmap.fromImage(qImg))
+
+
+    def btn42_clicked(self, checked):
+        t = test(self.row, self.column, self.channel)
+        self.img2 = t.sobel(self.img1)
+        qImg = QImage(self.img2.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
+        self.label_2.setPixmap(QPixmap.fromImage(qImg))
+
+
+    def btn43_clicked(self, checked):
+        t = test(self.row, self.column, self.channel)
+        self.img2 = t.prewitt(self.img1)
+        qImg = QImage(self.img2.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
+        self.label_2.setPixmap(QPixmap.fromImage(qImg))
+
+
+    def btn44_clicked(self, checked):
+        t = test(self.row, self.column, self.channel)
+        self.img2 = t.kirsch(self.img1)
+        qImg = QImage(self.img2.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
+        self.label_2.setPixmap(QPixmap.fromImage(qImg))
+
+
+    def btn45_clicked(self, checked):
+        t = test(self.row, self.column, self.channel)
+        self.img2 = t.laplacian_ori(self.img1)
+        qImg = QImage(self.img2.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
+        self.label_2.setPixmap(QPixmap.fromImage(qImg))
+
+
+    def btn46_clicked(self, checked):
+        t = test(self.row, self.column, self.channel)
+        self.img2 = t.laplacian_new(self.img1)
+        qImg = QImage(self.img2.data, self.column, self.row, self.bytesPerLine, QImage.Format_RGB888)
+        self.label_2.setPixmap(QPixmap.fromImage(qImg))
 
 
 if __name__ == '__main__':
