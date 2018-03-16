@@ -104,6 +104,26 @@ We can not say which one is better, it depends on different cases.
 
 The main point of pyramid is downsampling the image. Firstly, we should add dummy data to resize the image to `2**n` rows and `2**n` columns, then downsampling the original image to the new image with `2**(n-1)` rows and `2**(n-1)` columns. Continuing the steps above, the shape of the image will be smaller and smaller.
 
+The shape of original image is `[300,332,3]`
+
+<img src='/img/pyramid_ori.png' width = '332' height = '300'>
+
+After reshaping the image, the shape of image is `[512,512,3]`
+
+<img src='/img/pyramid_reshape.png' width = '332' height = '300'>
+
+Downsampling 1 time to the size `[256,256,3]`
+
+<img src='/img/pyramid_1.png' width = '332' height = '300'>
+
+Downsampling 2 times to the size `[128,128,3]`
+
+<img src='/img/pyramid_2.png' width = '332' height = '300'>
+
+Downsampling 3 times to the size `[64,64,3]`
+
+<img src='/img/pyramid_3.png' width = '332' height = '300'>
+
 ***Upsampling: Zero Order***
 
 ```python
@@ -127,6 +147,7 @@ The main point of pyramid is downsampling the image. Firstly, we should add dumm
  [3 3 4 4 9 9]
  [3 3 4 4 9 9]]
 ```
+Using Zero-Order 3 times to upsample the image to the original size `[512,512,3]`
 
 ***Upsampling: First Order***
 
@@ -149,6 +170,5 @@ The main point of pyramid is downsampling the image. Firstly, we should add dumm
   [2 4 7 7 6]
   [3 4 6 7 8]
   [3 4 4 7 9]]
-
 ```
-
+Using First-Order 3 times to upsample the image to the original size `[512,512,3]`
