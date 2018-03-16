@@ -99,3 +99,56 @@ Meanwhile, we can set a thresholding based on Robert's Operator.
 We can not say which one is better, it depends on different cases.
 
 ### Pyramid
+
+***Downsampling***
+
+The main point of pyramid is downsampling the image. Firstly, we should add dummy data to resize the image to `2**n` rows and `2**n` columns, then downsampling the original image to the new image with `2**(n-1)` rows and `2**(n-1)` columns. Continuing the steps above, the shape of the image will be smaller and smaller.
+
+***Upsampling: Zero Order***
+
+```python
+# The original image is:
+[[3 5 7]
+ [2 7 6]
+ [3 4 9]]
+# Padding with 0:
+[[0 0 0 0 0 0 0]
+ [0 3 0 5 0 7 0]
+ [0 0 0 0 0 0 0]
+ [0 2 0 7 0 6 0]
+ [0 0 0 0 0 0 0]
+ [0 3 0 4 0 9 0]
+ [0 0 0 0 0 0 0]]
+# After applying mask[1,1,1,1]:
+[[3 3 5 5 7 7]
+ [3 3 5 5 7 7]
+ [2 2 7 7 6 6]
+ [2 2 7 7 6 6]
+ [3 3 4 4 9 9]
+ [3 3 4 4 9 9]]
+```
+
+***Upsampling: First Order***
+
+```python
+# The original image is:
+[[3 5 7]
+ [2 7 6]
+ [3 4 9]]
+# Padding with 0:
+[[0 0 0 0 0 0 0]
+ [0 3 0 5 0 7 0]
+ [0 0 0 0 0 0 0]
+ [0 2 0 7 0 6 0]
+ [0 0 0 0 0 0 0]
+ [0 3 0 4 0 9 0]
+ [0 0 0 0 0 0 0]]
+ # After appling mask[0.25,0.5,0.25,0.5,1,0.5,0.25,0.5,0.25]:
+ [[3 4 5 6 7]
+  [3 4 6 6 7]
+  [2 4 7 7 6]
+  [3 4 6 7 8]
+  [3 4 4 7 9]]
+
+```
+
