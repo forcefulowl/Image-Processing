@@ -61,4 +61,37 @@ We can see, there're tons of noises in this image. To get a better performance, 
 
 ![avatar](/img/iterative-smooth.png) ![avatar](/img/label2.png)
 
+### Sharpening
 
+The main idea of image sharpening is, checking the adjacent area and computing the variation.
+
+***Robert's Operator***
+
+`[0,-1,1,0]+[-1,0,0,1]`
+Meanwhile, we can set a thresholding based on Robert's Operator.
+![avatar](/img/roberts.png)
+
+***Sobel Operator***
+
+`x = [1,2,1,0,0,0,-1,-2,-1], y = [1,0,-1,2,0,-2,1,0,-1], result = math.sqrt(x**2+y**2)`
+![avatar](/img/sobel.png)
+
+***Prewitt Operator***
+
+`r1 = [-1,0,1,-1,0,1,-1,0,1], r2 = [1,1,1,0,0,0,-1,-1,-1], result = math.sqrt(r1**2+r2**2)`
+![avatar](/img/prewitt.png)
+
+***Kirsch Operator***
+
+`r3 = [0,1,1,-1,0,1,-1,-1,0], r4 = [1,1,0,1,0,-1,0,-1,-1], result = max(r1,r2,r3,r4)`
+![avatar](/img/krisch.png)
+
+***Laplacian Operator***
+
+`ori1 = [0,1,0,1,-4,1,0,1,0], ori2 = [1,0,1,0,-4,0,1,0,1], new = [1,1,1,1,-8,1,1,1,1] or [-1,-1,-1,-1,8,-1,-1,-1,-1]`
+
+![avatar](/img/laplacian_ori.png)![avatar](/img/laplacian_new.png)
+
+We can not say which one is better, it depends on different cases.
+
+### Pyramid
