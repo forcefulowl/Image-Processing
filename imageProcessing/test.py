@@ -198,6 +198,106 @@ class test():
             i = i - 1
         return list
 
+
+    def roberts(self,img):
+        row,column,channel=img.shape
+        img1=deepcopy(img)
+        for i in range(row-1):
+            for j in range(column-1):
+                result1 = abs(float((-1)*img1[i,j+1,0])+float(img1[i+1,j,0]))
+                result2 = abs(float((-1)*img1[i,j,0])+float(img1[i+1,j+1,0]))
+                result = result1+result2
+                if result<=255:
+                    img[i,j]=[result,result,result]
+                else:
+                    img[i,j]=[255,255,255]
+        return img
+
+
+    def sobel(self,img):
+        row,column,channel = img.shape
+        img1=deepcopy(img)
+        for i in range(1,row-1):
+            for j in range(1,column-1):
+                resultx=abs(float(img1[i-1,j-1,0])+float(2*img1[i-1,j,0])+float(img1[i-1,j+1,0])-float(img1[i+1,j-1,0])-float(2*img1[i+1,j,0])-float(img1[i+1,j+1,0]))
+                resulty=abs(float(img1[i-1,j-1,0])-float(img1[i-1,j+1,0])+float(2*img1[i,j-1,0])-float(2*img1[i,j+1,0])+float(img1[i+1,j-1,0])-float(img1[i+1,j+1,0]))
+                result = math.floor(math.sqrt(math.pow(resultx,2)+math.pow(resulty,2)))
+                if result <= 255:
+                    img[i,j]=[result,result,result]
+                else:
+                    img[i,j]=[255,255,255]
+        return img
+
+    def prewitt(self,img):
+        row, column, channel = img.shape
+        img1 = deepcopy(img)
+        for i in range(1, row - 1):
+            for j in range(1, column - 1):
+                resultx = abs(float((-1) * img1[i - 1, j - 1, 0]) - float(img1[i - 1, j, 0]) - float(
+                    img1[i - 1, j + 1, 0]) + float(img1[i + 1, j - 1, 0]) + float(img1[i + 1, j, 0]) + float(
+                    img1[i + 1, j + 1, 0]))
+                resulty = abs(float((-1) * img1[i - 1, j - 1, 0]) + float(img1[i - 1, j + 1, 0]) - float(
+                    img1[i, j - 1, 0]) + float(img1[i, j + 1, 0]) - float(img1[i + 1, j - 1, 0]) + float(
+                    img1[i + 1, j + 1, 0]))
+                result = math.floor(math.sqrt(math.pow(resultx, 2) + math.pow(resulty, 2)))
+
+                if result <= 255:
+                    img[i, j] = [result, result, result]
+                else:
+                    img[i, j] = [255, 255, 255]
+        return img
+
+    def kirsch(self,img):
+        row, column, channel = img.shape
+        img1 = deepcopy(img)
+        for i in range(1, row - 1):
+            for j in range(1, column - 1):
+                result1 = abs(float((-1) * img1[i - 1, j - 1, 0]) - float(img1[i - 1, j, 0]) - float(
+                    img1[i - 1, j + 1, 0]) + float(img1[i + 1, j - 1, 0]) + float(img1[i + 1, j, 0]) + float(
+                    img1[i + 1, j + 1, 0]))
+                result2 = abs(float((-1) * img1[i - 1, j - 1, 0]) + float(img1[i - 1, j + 1, 0]) - float(
+                    img1[i, j - 1, 0]) + float(img1[i, j + 1, 0]) - float(img1[i + 1, j - 1, 0]) + float(
+                    img1[i + 1, j + 1, 0]))
+                result3 = abs(float(img1[i - 1, j, 0]) + float(img1[i, j + 1, 0]) - float(img1[i, j - 1, 0]) + float(
+                    img1[i, j + 1, 0]) - float(img1[i + 1, j - 1, 0]) - float(img1[i + 1, j, 0]))
+                result4 = abs(
+                    float(img1[i - 1, j - 1, 0]) + float(img1[i - 1, j, 0]) + float(img1[i, j - 1, 0]) - float(
+                        img1[i, j + 1, 0]) - float(img1[i + 1, j, 0]) - float(img1[i + 1, j + 1, 0]))
+                result = max(result1, result2, result3, result4)
+                if result <= 255:
+                    img[i, j] = [result, result, result]
+                else:
+                    img[i, j] = [255, 255, 255]
+        return img
+
+    def laplacian_ori(self,img):
+        row, column, channel = img.shape
+        img1 = deepcopy(img)
+        for i in range(1, row - 1):
+            for j in range(1, column - 1):
+                result = abs(float(img1[i - 1, j, 0]) + float(img1[i, j - 1, 0]) - float(4 * img1[i, j, 0]) + float(
+                    img1[i, j + 1, 0]) + float(img1[i + 1, j, 0]))
+                if result <= 255:
+                    img[i, j] = [result, result, result]
+                else:
+                    img[i, j] = [255, 255, 255]
+        return img
+
+    def laplacian_new(self,img):
+        row, column, channel = img.shape
+        img1 = deepcopy(img)
+        for i in range(1, row - 1):
+            for j in range(1, column - 1):
+                result = abs(
+                    float(img1[i - 1, j - 1, 0]) + float(img1[i - 1, j, 0]) + float(img1[i - 1, j + 1, 0]) + float(
+                        img1[i, j - 1, 0]) - float(8 * img[i, j, 0]) + float(img1[i, j + 1, 0]) + float(
+                        img1[i + 1, j - 1, 0]) + float(img1[i + 1, j, 0]) + float(img1[i + 1, j + 1, 0]))
+                if result <= 255:
+                    img[i, j] = [result, result, result]
+                else:
+                    img[i, j] = [255, 255, 255]
+        return img
+
 # img = mpimg.imread('/Users/gavin/Desktop/sample4.jpeg')
 #
 # img.flags.writeable = True
