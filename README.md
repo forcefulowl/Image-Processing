@@ -149,6 +149,9 @@ Downsampling 3 times to the size `[64,64,3]`
 ```
 Using Zero-Order 3 times to upsample the image to the original size `[512,512,3]`
 
+
+<img src='/img/pyramid_zero.png' width = '332' height = '300'>
+
 ***Upsampling: First Order***
 
 ```python
@@ -172,3 +175,6 @@ Using Zero-Order 3 times to upsample the image to the original size `[512,512,3]
   [3 4 4 7 9]]
 ```
 Using First-Order 3 times to upsample the image to the original size `[512,512,3]`
+
+
+<img src='/img/pyramid_first.png' width = '332' height = '300'>
