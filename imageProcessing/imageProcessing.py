@@ -3,6 +3,9 @@ import matplotlib.image as mpimg
 from copy import deepcopy
 import math
 import random
+from PIL import Image
+import cv2
+import numpy as np
 
 
 def rgbToGray(img):
@@ -38,6 +41,7 @@ def smooth_median(img):
             img[i,j,0] = img[i,j,1] = img[i,j,2] = list[4]
     return img
 
+
 def salt_pepper(img):
     row, column, channel = img.shape
     nums = int((row * column)*0.1)
@@ -49,6 +53,7 @@ def salt_pepper(img):
         else:
             img[num1,num2] = [255,255,255]
     return img
+
 
 def binary_thresholding(img, thresholding):
     row, column, channel = img.shape
@@ -223,11 +228,259 @@ def histogram(img):
     plt.show()
 
 
+def roberts(img):
+    row,column,channel=img.shape
+    img1=deepcopy(img)
+    for i in range(row-1):
+        for j in range(column-1):
+            result1 = abs(float((-1)*img1[i,j+1,0])+float(img1[i+1,j,0]))
+            result2 = abs(float((-1)*img1[i,j,0])+float(img1[i+1,j+1,0]))
+            result = result1+result2
+            if result<=255:
+                img[i,j]=[result,result,result]
+            else:
+                img[i,j]=[255,255,255]
+    return img
 
-#np.set_printoptions(threshold=np.inf)
-img = mpimg.imread('sample.jpeg')
-#plt.imshow(img, interpolation='nearest')
+
+def sobel(img):
+    row,column,channel = img.shape
+    img1=deepcopy(img)
+    for i in range(1,row-1):
+        for j in range(1,column-1):
+            resultx=abs(float(img1[i-1,j-1,0])+float(2*img1[i-1,j,0])+float(img1[i-1,j+1,0])-float(img1[i+1,j-1,0])-float(2*img1[i+1,j,0])-float(img1[i+1,j+1,0]))
+            resulty=abs(float(img1[i-1,j-1,0])-float(img1[i-1,j+1,0])+float(2*img1[i,j-1,0])-float(2*img1[i,j+1,0])+float(img1[i+1,j-1,0])-float(img1[i+1,j+1,0]))
+            result = math.floor(math.sqrt(math.pow(resultx,2)+math.pow(resulty,2)))
+            if result <= 255:
+                img[i,j]=[result,result,result]
+            else:
+                img[i,j]=[255,255,255]
+    return img
+
+
+def prewitt(img):
+    row,column,channel = img.shape
+    img1 = deepcopy(img)
+    for i in range(1,row-1):
+        for j in range(1,column-1):
+            resultx = abs(float((-1)*img1[i-1,j-1,0])-float(img1[i-1,j,0])-float(img1[i-1,j+1,0])+float(img1[i+1,j-1,0])+float(img1[i+1,j,0])+float(img1[i+1,j+1,0]))
+            resulty = abs(float((-1)*img1[i-1,j-1,0])+float(img1[i-1,j+1,0])-float(img1[i,j-1,0])+float(img1[i,j+1,0])-float(img1[i+1,j-1,0])+float(img1[i+1,j+1,0]))
+            result = math.floor(math.sqrt(math.pow(resultx,2)+math.pow(resulty,2)))
+
+            if result <=255:
+                img[i,j]=[result,result,result]
+            else:
+                img[i,j]=[255,255,255]
+    return img
+
+
+def kirsch(img):
+    row,column,channel = img.shape
+    img1 = deepcopy(img)
+    for i in range(1,row-1):
+        for j in range(1,column-1):
+            result1 = abs(float((-1)*img1[i-1,j-1,0])-float(img1[i-1,j,0])-float(img1[i-1,j+1,0])+float(img1[i+1,j-1,0])+float(img1[i+1,j,0])+float(img1[i+1,j+1,0]))
+            result2 = abs(float((-1)*img1[i-1,j-1,0])+float(img1[i-1,j+1,0])-float(img1[i,j-1,0])+float(img1[i,j+1,0])-float(img1[i+1,j-1,0])+float(img1[i+1,j+1,0]))
+            result3 = abs(float(img1[i-1,j,0])+float(img1[i,j+1,0])-float(img1[i,j-1,0])+float(img1[i,j+1,0])-float(img1[i+1,j-1,0])-float(img1[i+1,j,0]))
+            result4 = abs(float(img1[i-1,j-1,0])+float(img1[i-1,j,0])+float(img1[i,j-1,0])-float(img1[i,j+1,0])-float(img1[i+1,j,0])-float(img1[i+1,j+1,0]))
+            result = max(result1,result2,result3,result4)
+            if result<=255:
+                img[i,j]=[result,result,result]
+            else:
+                img[i,j]=[255,255,255]
+    return img
+
+
+def laplacian_ori(img):
+    row,column,channel = img.shape
+    img1 = deepcopy(img)
+    for i in range(1,row-1):
+        for j in range(1,column-1):
+            result = abs(float(img1[i-1,j,0])+float(img1[i,j-1,0])-float(4*img1[i,j,0])+float(img1[i,j+1,0])+float(img1[i+1,j,0]))
+            if result<=255:
+                img[i,j]=[result,result,result]
+            else:
+                img[i,j]=[255,255,255]
+    return img
+
+
+def laplacian_new(img):
+    row,column,channel = img.shape
+    img1 = deepcopy(img)
+    for i in range(1,row-1):
+        for j in range(1,column-1):
+            result = abs(float(img1[i-1,j-1,0])+float(img1[i-1,j,0])+float(img1[i-1,j+1,0])+float(img1[i,j-1,0])-float(8*img[i,j,0])+float(img1[i,j+1,0])+float(img1[i+1,j-1,0])+float(img1[i+1,j,0])+float(img1[i+1,j+1,0]))
+            if result<=255:
+                img[i,j]=[result,result,result]
+            else:
+                img[i,j]=[255,255,255]
+    return img
+
+
+def reshape(img):
+    row, column, channel = img.shape
+    if row > column:
+        w,h = row,row
+        m,n = 0,0
+        data = np.zeros((w,h,3), dtype = np.uint8)
+        for i in range(row):
+            for j in range(column):
+                data[m,n] = [img[i,j,0],img[i,j,0],img[i,j,0]]
+                n = n + 1
+            n = 0
+            m = m + 1
+        for i in range(row):
+            for j in range(column,row-column):
+                data[i,j] = [0,0,0]
+        newimg = Image.fromarray(data,'RGB')
+        return newimg
+    else:
+        w,h = column,column
+        m,n = 0,0
+        data = np.zeros((w,h,3),dtype = np.uint8)
+        for i in range(row):
+            for j in range(column):
+                data[m,n] = [img[i,j,0],img[i,j,0],img[i,j,0]]
+                n = n + 1
+            n = 0
+            m = m + 1
+        for i in range(column):
+            for j in range(row,column-row):
+                data[i,j] = [0,0,0]
+        newimg = Image.fromarray(data,'RGB')
+        return newimg
+
+
+def reshape2(img):
+    img = np.array(img)
+    row, column, channel = img.shape
+    pow = 0
+    while 2**pow < row:
+        pow = pow + 1
+    w, h = 2**pow,2**pow
+    m,n = 0,0
+    data = np.zeros((w,h,3),dtype=np.uint8)
+    for i in range(row):
+        for j in range(column):
+            data[m,n] = [img[i,j,0],img[i,j,0],img[i,j,0]]
+            n = n + 1
+        n = 0
+        m = m + 1
+    for i in range(row,2**pow):
+        for j in range(column,2**pow):
+            data[i,j] = [0,0,0]
+    newimg = Image.fromarray(data,'RGB')
+    return newimg
+
+
+def pyramid(img):
+    img = np.array(img)
+    row, column, channel = img.shape
+    w,h = int(row/2), int(column/2)
+    data = np.zeros((w,h,3), dtype = np.uint8)
+
+    i,j = 0,0
+    m,n = 0,0
+    row_ = row-1
+    column_ = column-1
+    while i <= row_:
+        while j <= column_:
+            result = (float(img[i,j,0]) + float(img[i,j+1,0]) + float(img[i+1,j,0]) + float(img[i+1,j+1,0]))/4
+            j = j + 2
+            data[m,n] = [result,result,result]
+            n = n +1
+        i = i + 2
+        m = m + 1
+        n=0
+        j=0
+    newimg = Image.fromarray(data,'RGB')
+    return newimg
+
+
+def pyramid3(img):
+    img = np.array(pyramid(img))
+    newimg = pyramid(img)
+    return newimg
+
+
+def pyramid4(img):
+    img = np.array(pyramid3(img))
+    newimg = pyramid(img)
+    return newimg
+
+
+def pyramid5(img):
+    img = np.array(pyramid4(img))
+    newimg = pyramid(img)
+    return newimg
+
+
+def pyramid6(img):
+    img = np.array(pyramid5(img))
+    newimg = pyramid(img)
+    return newimg
+
+
+def zero_order(img):
+    img = np.array(img)
+    row,column,channel = img.shape
+    w, h = row*2, column*2
+
+    data = np.zeros((w,h,3), dtype=np.uint8)
+    m,n = 0, 0
+    for i in range(row):
+        for j in range(column):
+            data[m,n] = [img[i,j,0],img[i,j,0],img[i,j,0]]
+            data[m,n+1] = [img[i,j,0],img[i,j,0],img[i,j,0]]
+            data[m+1,n] = [img[i,j,0],img[i,j,0],img[i,j,0]]
+            data[m+1,n+1] = [img[i,j,0],img[i,j,0],img[i,j,0]]
+            n = n + 2
+        n = 0
+        m = m + 2
+
+    newimg = Image.fromarray(data, 'RGB')
+    return newimg
+
+
+def first_order(img):
+    img = np.array(img)
+    row, column, channel = img.shape
+    w, h = row*2+1, column*2+1
+    data = np.zeros((w,h,3), dtype = np.uint8)
+    m,n = 1,1
+    for i in range(row):
+        for j in range(column):
+            data[m,n] = [img[i,j,0],img[i,j,0],img[i,j,0]]
+            n = n + 2
+        n = 1
+        m = m + 2
+    data1 = deepcopy(data)
+
+    for i in range(1,w-1):
+        for j in range(1,h-1):
+            result = data[i,j,0]+0.25*data[i-1,j-1,0]+0.5*data[i-1,j,0]+0.25*data[i-1,j+1,0]+0.5*data[i,j-1,0]+0.5*data[i,j+1,0]+0.25*data[i+1,j-1,0]+0.5*data[i+1,j,0]+0.25*data[i+1,j+1,0]
+            data1[i,j] = [result,result,result]
+    w_ = row*2
+    h_ = column*2
+    data = np.zeros((w_,h_,3),dtype = np.uint8)
+    m,n = 0,0
+    for i in range(1,row*2+1):
+        for j in range(1,column*2+1):
+            data[m,n] = [data1[i,j,0],data1[i,j,0],data1[i,j,0]]
+            n = n + 1
+        n = 0
+        m = m + 1
+
+    newimg = Image.fromarray(data,'RGB')
+    return newimg
+
+
+
+path1 = 'sample.jpeg'
+path2 = '/Users/gavin/Desktop/lena.jpg'
+img = mpimg.imread(path1)
 img.flags.writeable = True
+
 
 # rgbToGray(img)
 # smooth_avg(img)
@@ -235,16 +488,41 @@ img.flags.writeable = True
 # smooth_median(img)
 # binary_thresholding(img,180)
 # binary_ptile(img,35)
-#binary_iterative(img)
-#smooth_median(img)
-#smooth_median(img)
-# smooth_median(img)
+# binary_iterative(img)
 # smooth_median(img)
 # histogram(img)
+# labelComponents(img)
+
+# roberts(img)
+# sobel(img)
+# prewitt(img)
+# kirsch(img)
+# laplacian_ori(img)
+# laplacian_new(img)
+
+img = reshape(img)
+img = np.array(img)
+print(img.shape)
+img = reshape2(img)
+img = np.array(img)
+print(img.shape)
+img = pyramid5(img)
+img = np.array(img)
+print(img.shape)
+img = first_order(img)
+img = np.array(img)
+print(img.shape)
+img = first_order(img)
+img = np.array(img)
+print(img.shape)
+img = first_order(img)
+img = np.array(img)
+print(img.shape)
+img = first_order(img)
+img = np.array(img)
+print(img.shape)
 
 
-
-#labelComponents(img)
 
 plt.imshow(img)
 #plt.savefig('sample4.png')
