@@ -69,7 +69,7 @@ The main idea of image sharpening is, checking the adjacent area and computing t
 
 `[0,-1,1,0]+[-1,0,0,1]`
 Meanwhile, we can set a thresholding based on Robert's Operator.
-![avatar](/img/roberts.png)
+<img src='/img/roberts.png' width = '300' height = '300'>
 
 ***Sobel Operator***
 
