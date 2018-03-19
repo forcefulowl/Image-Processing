@@ -7,6 +7,13 @@ from PIL import Image
 import cv2
 import numpy as np
 
+__all__ = [
+    "rgbToGray", "smooth_avg", "smooth_median", "salt_pepper", "binary_thresholding",
+    "binary_ptile", "binary_iterative", "labelComponents", "histogram", "roberts",
+    "sobel", "prewitt", "kirsch", "laplacian_ori", "laplacian_new","pyramid",
+    "zero_order", "first_order"
+]
+
 
 def rgbToGray(img):
     row, column, channel = img.shape
