@@ -1,5 +1,7 @@
 # Image-Processing
 
+<img src='https://img.shields.io/badge/Python-3.6-red.svg'>
+
 The original image used in this project is:
 
 ![avatar](/img/original.png)
