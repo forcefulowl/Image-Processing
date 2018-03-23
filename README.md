@@ -12,3 +12,5 @@ __all__ = [
     "zero_order", "first_order"
 ]
 ```
+
+The details of the project is [click here](https://forcefulowl.github.io/2018/02/15/Image-Processing/)
