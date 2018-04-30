@@ -1,3 +1,5 @@
+# Mid-term
+
 - Computer graphic: the process of creating images from abstract model. For e.g. there's a list/Matrix of points, each point correspond to each pixel of the image.<br>
 - Image processing: Starting with an exsiting image and using different methods to refine it.
 
@@ -131,3 +133,63 @@ Multiple Processors performance = N\*T - V <br>
  `Speedup = [B + (1-B)N]/1`,  `Speedup = N - B(N-1) or N + B(1-N)`  <-- Optimistic View<br>
  Eg. Assume N = 10, B = 0.67, (1-B) = 0.33 <br>
  ==> `Speedup = 10 - 0.67(9) = 3.97 ~= 4` <-- Expected the speedup of 4.<br>
+ 
+ # Final
+ 
+ ## Magification
+
+The goal: reveal temporal variations in videos that are difficult to see by naked eye.
+
+The method: Called Eulerian Video Magnification.
+
+- takes a standard video sequence as input
+- Applies spatial decomposition
+- Followed by temporal filtering to the frames
+- The resulting signal is then amplified to reveal hidden information.
+
+
+## Human Vision
+
+There's a large difference between the image we display and image we actually perceive.
+
+- what our eyes perceive of a scene is determined by the light rays emitted or reflected from that scene.
+- when these light rays are strong enough and are within the right range of EM spectrum(300 to 700nm), the healthy eye will react to such a ray by sending an eletric signal to the brain through the optic nerve.
+- Two fundamental parts: 1. Eye - functions as the biological equivalent of a camera.2. Brain - does all the complex image processing.
+
+- we must be careful in taking our perception of an image as a gold standard; what an animal, a camera perceives in the same image may be somthing completely different.
+- Our visual perception depends on what's surrounding us.
+
+
+## Facial Recognition and Landmark Perdition
+
+- Analysis phase: is always the first pass and is the most complicated. It require some computer vision algorithms running under the hood.
+- Processing phase: once we have the facial landmarks done, all we have to do right now is to superpose the target filter or mask.
+- given an input image of video frame, find out all present human faces and output their bounding box. The most widely used technique is a combination of Histogram of Oriented Gradients and Support Vector Machine that achieve mediocre to relatively good detection ratios given a good quality images.
+
+How it works:
+
+- given an input image, compute the pyramidal representation of that image which is a pyramid of multi scaled downed version of the original image.
+- For each entry on the pyramid, a sliding window approach is uesd. The sliding window concept is quite simple. By looping over an image with a constant step size, small image patches pixels are extracted at different scales.
+- For each patch, the algorithm makes a decision if it contains a face or not. The HOG is computed for the current window and passed to the SVM classifier for the decision to take place.
+
+
+## JPEG Image Compression
+
+Reasons:
+
+- As a lossy compression JPEG performs very well.
+- JPEG is very widely used as 'the standard' in many applications.
+
+
+## Feature Detection and Extraction in Image Processing
+
+A feature is a significant piexe of information extracted from an image which provides more detailed understanding of the image. The major goal is to extract a set of features, which maximizeds the recongnition rate with the least amount of elements. 
+
+- Feature Detector: Finding interesting points in an image such that they remain locally invariant so that they can be detected even in a rotation or scale change. Edge detection/ corner detection/ blob detection.
+- Feature Descriptor: Algorithm which takes an image and outputs feature vectors. It encodes it into a series of numbers that act like a numerical fingerprint used to fieerentiate one feature from another. SIFT/ HOG/ SURF
+
+
+## Adversarial Examples in Image Classifiers
+
+- white box attack: adversary has compolete access to model and its parameters.
+- black box attack
